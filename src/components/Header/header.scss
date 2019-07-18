@@ -1,0 +1,17 @@
+@import '../../styles/colors.scss';
+@import '../../styles/alignment.scss';
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: $headerFooterHeight;
+  border-bottom: solid 1px $grey;
+  margin-bottom: $bigSpacing;
+  padding: $mediumSpacing;
+
+  img {
+    width: 50%;
+  }
+}

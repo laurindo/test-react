@@ -1,0 +1,36 @@
+@import './colors.scss';
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #fff;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 14px;
+}
+
+h5, h6, p, li, a, label, select {
+  font-size: 12px;
+}
+
+a {
+  text-decoration: none;
+  color: $black;
+  &:hover {
+    text-decoration: underline;
+  }
+}

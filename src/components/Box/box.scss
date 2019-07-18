@@ -1,0 +1,15 @@
+@import '../../styles/colors.scss';
+@import '../../styles/alignment.scss';
+
+.box {
+  width: 100%;
+  padding: $bigSpacing;
+  border-radius: 2px;
+  border: solid 1px $grey;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  div {
+    width: 100%;
+  }
+}

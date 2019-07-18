@@ -1,0 +1,18 @@
+@import '../../styles/colors.scss';
+@import '../../styles/alignment.scss';
+
+.card {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: $mediumSpacing;
+  border-radius: 2px;
+  .avatar {
+    width: 25%;
+    padding: $smallSpacing;
+  }
+  a {
+    color: $primaryOrange;
+  }
+}

@@ -1,0 +1,15 @@
+@import '../../styles/colors.scss';
+@import '../../styles/alignment.scss';
+
+button {
+  width: 128px;
+  height: 32px;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  margin: $bigSpacing 0;
+  background-color: $secondaryOrange;
+  &:active {
+    background-color: $primaryOrange;
+  }
+}

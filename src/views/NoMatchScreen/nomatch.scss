@@ -1,0 +1,28 @@
+@import '../../styles/colors.scss';
+@import '../../styles/alignment.scss';
+
+.nomatch {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding: 10%;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+
+  h1 {
+    margin: $bigSpacing 0;
+  }
+
+  h3 {
+    margin: $smallSpacing 0;
+    a {
+      font-size: 18px;
+      color: $primaryOrange;
+    }
+  }
+}
