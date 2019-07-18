@@ -15,48 +15,26 @@ const prepareQueryString = (queries: any) => {
   }
 };
 
-interface Response {
-  data?: {}
+function getCarsEndpoint(params: Object = {}) {
+  const query = prepareQueryString(params);
+  return axios({
+    url: `${URL}/api/cars?${query}`,
+    method: "GET",
+  });
 }
 
-const _useFetch = (url: string) => {
-  try {
-    let [data, setData] = useState({});
-    let [loading, setLoading] = useState(true);
+function getColorsEndpoint() {
+  return axios({
+    url: `${URL}/api/colors`,
+    method: "GET",
+  }); 
+}
 
-    async function fetchUrl() {
-      let response: Response;
-      response = await axios({
-        url,
-        headers: { 'Content-Type': 'application/json' }
-      }).catch(e => {
-        return {};
-      });
-      debugger;
-      const json = response.data;
-      setData({ ...json });
-      setLoading(false);
-    }
+function getManufacturersEndpoint() {
+  return axios({
+    url: `${URL}/api/manufacturers`,
+    method: "GET",
+  }); 
+}
 
-    useEffect(() => {
-      fetchUrl().catch(e => {
-        console.log(e);
-      });
-    }, []);
-
-    return [data, setData, loading];
-  } catch (e) {
-    return e;
-  }
-};
-
-const useFetch = (url: string) => {
-  return _useFetch(url);
-};
-
-const getCars = (params: Object = {}) => {
-  const query = prepareQueryString(params);
-  return _useFetch(`${URL}/api/cars?${query}`);
-};
-
-export { useFetch, getCars };
+export { getCarsEndpoint, getColorsEndpoint, getManufacturersEndpoint };

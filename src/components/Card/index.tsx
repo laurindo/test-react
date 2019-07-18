@@ -7,6 +7,7 @@ interface Props {
   picture: '',
   title: String,
   shortDescription: String,
+  data: Object,
 }
 
 const Card = (props: Props) => {
@@ -16,9 +17,15 @@ const Card = (props: Props) => {
         <img width="100%" src={props.picture} />
       </div>
       <div>
-        <h4>{props.title}</h4>
+        <h2>{props.title}</h2>
         <p>{props.shortDescription}</p>
-        <Link to={`/car/${props.id}`}>View Details</Link>
+        <Link to={{
+          pathname: `/car/${props.id}`,
+          state: {
+            ...props,
+            ...props.data,
+          },
+        }}>View Details</Link>
       </div>
     </div>
   );

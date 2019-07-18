@@ -1,3 +1,43 @@
-select {
-  display: block;
+@import '../../styles/colors.scss';
+@import '../../styles/alignment.scss';
+
+.container-select {
+  position: relative;
+  margin: $smallSpacing 0;
+
+  .select {
+    border: solid 1px $grey;
+    padding: 5px 10px;
+    border-radius: 2px;
+    font-size: 14px;
+  }
+  
+  img {
+    position: absolute;
+    right: 10px;
+    width: 16px;
+    top: 10px;
+  }
+
+  ul {
+    position: absolute;
+    width: 100%;
+    background-color: #fff;
+    z-index: 99;
+    list-style: none;
+    margin: 10px 0;
+    padding: 0;
+    border: solid 1px $grey;
+    
+    li {
+      border-bottom: solid 1px $grey;
+      padding: 10px;
+      cursor: pointer;
+      &:hover {
+        background-color: $secondaryOrange;
+        color: #fff;
+        border-radius: 2px;
+      }
+    }
+  }
 }

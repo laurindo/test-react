@@ -1,0 +1,11 @@
+@import '../../styles/alignment.scss';
+
+.car-details {
+    margin: $mediumSpacing 0;
+    padding: 0 ($bigSpacing * 3);
+    min-height: $contentWrapperSize;
+}
+
+.container-favorite {
+    margin-top: $mediumSpacing;
+}

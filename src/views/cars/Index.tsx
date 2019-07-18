@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 import Box from '../../components/Box';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
@@ -8,50 +7,64 @@ import Label from '../../components/Label';
 import Pagination from '../../components/Pagination';
 import Loading from '../../components/Loading';
 
-import { getCars } from '../../helpers/http.helper';
+import * as HttpHelper from '../../helpers/http.helper';
 import * as PaginationHelper from '../../helpers/pagination.helper';
+import { ICar } from '../../interfaces/car.interface';
 
-interface Data {
-  id: string,
-  modelName: string,
-  pictureUrl: '',
-  stockNumber: string,
-  fuelType: string,
-  color: string,
-  mileage: {
-    number: string,
-    unit: string
-  },
+interface IManufacturer {
+  name: string,
 }
 
 export const Index = () => {
-  let [filter, setFilter] = useState(PaginationHelper.getDefaultValues());
-  let [data, setCar, loading] = getCars(filter);
-  const paginationSize = PaginationHelper.getPaginationTotal(data.cars);
-  const resultSize = PaginationHelper.getResultTotal(data);
+  let [paginationSize, setPaginationSize] = React.useState(0);
+  let [resultSize, setResultSize] = React.useState(0);
+  let [filter, setFilter] = React.useState(PaginationHelper.getDefaultValues());
+  let [cars, setCar] = React.useState([]);
+  let [colors, setColors] = React.useState([]);
+  let [manufacturers, setManufacturers] = React.useState([]);
 
-  /** MOVER PARA UMA CLASSSE HELPER */
+  React.useEffect(() => {
+    HttpHelper.getCarsEndpoint(filter).then(response => {
+      setCar(response.data.cars);
+      setPaginationSize(PaginationHelper.getPaginationTotal(response.data.cars));
+      setResultSize(PaginationHelper.getResultTotal(response.data));
+    });
+
+    HttpHelper.getColorsEndpoint().then(response => {
+      setColors(response.data.colors);
+    });
+
+    HttpHelper.getManufacturersEndpoint().then(response => {
+      setManufacturers(response.data.manufacturers.map((manufacturer: IManufacturer) => manufacturer.name));
+    });
+  }, []);
+
   const renderAvailableCars = () => {
-    if (!loading) {
-      return data.cars.map((car: Data, index: string) => {
+    if (cars && cars.length) {
+      return cars.map((car: ICar, index: number) => {
         return <Card 
                 id={car.stockNumber}
                 key={index} 
                 title={car.modelName} 
-                picture={car.pictureUrl} 
+                picture={car.pictureUrl}
+                data={car}
                 shortDescription={`Stock #${car.stockNumber} - ${car.mileage.number} ${car.mileage.unit} - ${car.fuelType} - ${car.color}`} />;
-      });
+        });
     }
-    return <Loading />;
+  return <Loading />;
   };
 
   const handleFilterCars = async () => {
-    console.log(filter);
-    console.log(getCars);
-    setCar({ ...data });
-    setFilter(filter);
-    getCars(filter);
-    //[data, loading] = getCars(filter);
+    HttpHelper.getCarsEndpoint(filter).then(response => {
+      setCar(response.data.cars);
+    });
+  };
+
+  const handleSortCars = async (value: string) => {
+    setFilter({ ...filter, sort: PaginationHelper.getSortValue(value)});
+    HttpHelper.getCarsEndpoint(filter).then(response => {
+      setCar(response.data.cars);
+    });
   };
 
   return (
@@ -65,7 +78,7 @@ export const Index = () => {
                 placeholder="All colors"
                 handleChange={(value: string) => setFilter({ ...filter, color: value })} 
                 value={filter.color} 
-                options={['blue', 'yellow']} />
+                options={colors} />
             </div>
 
             <div>
@@ -74,7 +87,7 @@ export const Index = () => {
                 placeholder="All manufacturers" 
                 handleChange={(value: string) => setFilter({ ...filter, manufacturer: value })} 
                 value={filter.manufacturer} 
-                options={['ford', 'fiat']} />
+                options={manufacturers} />
             </div>
 
             <Button handleClick={() => handleFilterCars()}>Filter</Button>
@@ -82,12 +95,24 @@ export const Index = () => {
         </div>
 
         <div className="col-8">
-          <div>
-            <h2>Available Cars</h2>
-            <h4>Showing {paginationSize} of {resultSize} results</h4>
+          <div className="row">
+            <div className="col-8">
+              <h2>Available Cars</h2>
+              <h4>Showing {paginationSize} of {resultSize} results</h4>
+            </div>
+            <div className="col-4">
+              <Label>Sort by</Label>
+              <Select 
+                placeholder="None"
+                handleChange={(value: string) => handleSortCars(value)} 
+                value={filter.color} 
+                options={['Mileage - Ascending', 'Mileage - Descending']} />
+            </div>
           </div>
+
           {renderAvailableCars()}
           <Pagination />
+
         </div>
       </div>
     </div>

@@ -1,0 +1,13 @@
+@import '../../styles/colors.scss';
+@import '../../styles/alignment.scss';
+
+footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: $headerFooterHeight;
+  border-top: solid 1px $grey;
+  margin-top: $bigSpacing;
+  padding: $mediumSpacing;
+}

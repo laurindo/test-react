@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Fragment } from 'react';
+import Arrow from '../Arrow';
+import './select.scss';
 
 interface Props {
   options: string[],
@@ -9,26 +10,43 @@ interface Props {
 }
 
 const Select = (props: Props) => {
-  const renderOptions = (options: string[] = []) => {
-    return options.map((color, index) => {
+
+  const [selectedOption, setOption] = React.useState('');
+  const [isShowOptions, setShowOptions] = React.useState(false);
+  
+  const renderOptions = () => {
+    return props.options.map((color, index) => {
       return (
-          <option key={index} value={color}>
-            {' '}
-            {color}{' '}
-          </option>
+        <li key={index} onClick={(e) => handleOption(e.currentTarget.innerText)}> { color} </li>
       );
     });
   };
 
-  return <select 
-            value={props.value}
-            onChange={(e) => { 
-              console.log(e.target.value);
-              props.handleChange(e.target.value); 
-            }}>
-            <option value=''>{ props.placeholder }</option>
-            {renderOptions(props.options)}
-        </select>;
+  const showSelect = () => {
+    setShowOptions(!isShowOptions);
+  };
+
+  const handleOption = (value: string) => {
+    showSelect();
+    setOption(value);
+    props.handleChange(value);
+  };
+
+  return (
+    <div className="container-select">
+      <div className="select" onClick={showSelect}> 
+        { selectedOption || props.placeholder} 
+        <Arrow status={isShowOptions} />
+      </div>
+      {
+        isShowOptions ?
+          <ul>
+            <li onClick={(e) => handleOption('')}> { props.placeholder } </li>
+            { renderOptions() }
+          </ul> : null
+      }
+    </div>
+  );
 };
 
 export default Select;
