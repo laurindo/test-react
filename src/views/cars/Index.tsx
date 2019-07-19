@@ -22,6 +22,7 @@ export const Index = () => {
   let [cars, setCar] = React.useState([]);
   let [colors, setColors] = React.useState([]);
   let [manufacturers, setManufacturers] = React.useState([]);
+  let [pageNumber, setPageNumber] = React.useState(1);
 
   React.useEffect(() => {
     HttpHelper.getCarsEndpoint(filter).then(response => {
@@ -63,6 +64,44 @@ export const Index = () => {
   const handleSortCars = async (value: string) => {
     setFilter({ ...filter, sort: PaginationHelper.getSortValue(value)});
     HttpHelper.getCarsEndpoint(filter).then(response => {
+      setCar(response.data.cars);
+    });
+  };
+
+  const handleFirstPage = async (value: number) => {
+    const newFilter = { ...filter, page: value};
+    setFilter(newFilter);
+    HttpHelper.getCarsEndpoint(newFilter).then(response => {
+      setCar(response.data.cars);
+    });
+  };
+
+  const handleLastPage = async (value: number) => {
+    const newFilter = { ...filter, page: value};
+    setFilter(newFilter);
+    HttpHelper.getCarsEndpoint(newFilter).then(response => {
+      setCar(response.data.cars);
+    });
+  };
+
+  const handlePreviousPage = async () => {
+    const newPageNumber = pageNumber - 1;
+    setPageNumber(newPageNumber);
+    const newFilter = { ...filter, page: newPageNumber};
+
+    setFilter(newFilter);
+    HttpHelper.getCarsEndpoint(newFilter).then(response => {
+      setCar(response.data.cars);
+    });
+  };
+
+  const handleNextPage = async () => {
+    const newPageNumber = pageNumber + 1;
+    setPageNumber(newPageNumber);
+    const newFilter = { ...filter, page: newPageNumber};
+
+    setFilter(newFilter);
+    HttpHelper.getCarsEndpoint(newFilter).then(response => {
       setCar(response.data.cars);
     });
   };
@@ -111,7 +150,14 @@ export const Index = () => {
           </div>
 
           {renderAvailableCars()}
-          <Pagination />
+          <Pagination
+            handleFirstPage={() => handleFirstPage(1)} 
+            handleLastPage={() => handleLastPage(10)} 
+            handlePreviousPage={() => handlePreviousPage()}
+            handleNextPage={() => handleNextPage()}
+            pageNumber={pageNumber}
+            pageTotal={paginationSize}
+          />
 
         </div>
       </div>
