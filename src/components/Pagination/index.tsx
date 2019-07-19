@@ -2,22 +2,31 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './pagination.scss';
 
-const Pagination = () => {
+interface IProps {
+  handleFirstPage: Function,
+  handleLastPage: Function,
+  handlePreviousPage: Function,
+  handleNextPage: Function,
+  pageNumber: number,
+  pageTotal: number,
+};
+
+const Pagination = (props: IProps) => {
   return (
     <nav className="pagination">
       <ul>
         <li>
-          <Link to="">First</Link>
+          <p onClick={() => props.handleFirstPage()}>First</p>
         </li>
         <li>
-          <Link to="">Previous</Link>
+          <p onClick={() => props.handlePreviousPage()}>Previous</p>
         </li>
-        <li>Page 2 of 10</li>
+        <li>Page {props.pageNumber} of {props.pageTotal}</li>
         <li>
-          <Link to="">Next</Link>
+          <p onClick={() => props.handleNextPage()}>Next</p>
         </li>
         <li>
-          <Link to="">Last</Link>
+        <p onClick={() => props.handleLastPage()}>Last</p>
         </li>
       </ul>
     </nav>
