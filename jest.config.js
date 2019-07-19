@@ -1,7 +1,7 @@
+const {defaults} = require('jest-config');
 module.exports = {
-    setupFilesAfterEnv: [
-      '@testing-library/react/cleanup-after-each',
-      // ... other setup files ...
-    ],
-    // ... other options ...
-  }
+  // ...
+  verbose: true,
+  moduleFileExtensions: [...defaults.moduleFileExtensions, 'ts', 'tsx'],
+  // ...
+};
