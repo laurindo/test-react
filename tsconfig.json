@@ -1,11 +1,16 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
     "outDir": "build/dist",
-    "module": "commonjs",
+    "module": "esnext",
     "target": "es2018",
     "lib": [
       "es6",
+      "es2017",
       "dom"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
     ],
     "sourceMap": true,
     "allowJs": true,

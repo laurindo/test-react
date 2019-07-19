@@ -1,12 +1,11 @@
-import '@testing-library/react/cleanup-after-each';
-import '@testing-library/jest-dom/extend-expect';
-
 import * as React from 'react';
 import {render, fireEvent, findAllByTestId} from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Card from './index';
 
-it('basic example', () => {
+it('<Card />', () => {
   const { queryByText, getByLabelText, getByText } = render(
+      <Router>
         <Card 
             id='1' 
             picture='' 
@@ -14,6 +13,9 @@ it('basic example', () => {
             shortDescription='short description'
             data={{}}
             />
+      </Router>
     );
-  expect(queryByText('Title Card3')).toBeNull();
+    const title = getByText('Title Card');
+  getByText((content, element) => content.startsWith('Title Card'));
+  expect(title).toBeDefined();
 });

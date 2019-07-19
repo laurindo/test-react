@@ -7,7 +7,7 @@ const TopMenu = () => {
     <nav>
       <ul>
         <li>
-          <Link to="/">Purhcase</Link>
+          <Link to="/">Purchase</Link>
         </li>
         <li>
           <Link to="/my-orders">My Orders</Link>

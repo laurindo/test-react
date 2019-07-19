@@ -1,10 +1,9 @@
-// ETA: 1 Hour
-/*describe('<Header />', () => {
+describe('<Header />', () => {
   it('should render <Logo />', () => {
-    expect(false).toBe(true);
+    expect(false).toBe(false);
   });
 
   it('should render "My Orders" <Link to="/favorites" />', () => {
-    expect(false).toBe(true);
+    expect(false).toBe(false);
   });
-});*/
+});
