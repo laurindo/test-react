@@ -4,8 +4,12 @@
   justify-content: center;
   ul {
     li {
-      a {
+      p {
         color: $primaryOrange;
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }

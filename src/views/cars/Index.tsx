@@ -17,7 +17,8 @@ interface IManufacturer {
 
 export const Index = () => {
   let [paginationSize, setPaginationSize] = React.useState(0);
-  let [resultSize, setResultSize] = React.useState(0);
+  let [totalPageCount, setTotalPageCount] = React.useState(0);
+  let [totalPageCars, setTotalPageCars] = React.useState(0);
   let [filter, setFilter] = React.useState(PaginationHelper.getDefaultValues());
   let [cars, setCar] = React.useState([]);
   let [colors, setColors] = React.useState([]);
@@ -28,7 +29,8 @@ export const Index = () => {
     HttpHelper.getCarsEndpoint(filter).then(response => {
       setCar(response.data.cars);
       setPaginationSize(PaginationHelper.getPaginationTotal(response.data.cars));
-      setResultSize(PaginationHelper.getResultTotal(response.data));
+      setTotalPageCount(PaginationHelper.getTotalPageCount(response.data));
+      setTotalPageCars(PaginationHelper.getTotalCarsCount(response.data));
     });
 
     HttpHelper.getColorsEndpoint().then(response => {
@@ -137,7 +139,7 @@ export const Index = () => {
           <div className="row">
             <div className="col-8">
               <h2>Available Cars</h2>
-              <h4>Showing {paginationSize} of {resultSize} results</h4>
+              <h4>Showing {paginationSize} of {totalPageCars} results</h4>
             </div>
             <div className="col-4">
               <Label>Sort by</Label>
@@ -156,7 +158,7 @@ export const Index = () => {
             handlePreviousPage={() => handlePreviousPage()}
             handleNextPage={() => handleNextPage()}
             pageNumber={pageNumber}
-            pageTotal={paginationSize}
+            pageTotal={totalPageCount}
           />
 
         </div>

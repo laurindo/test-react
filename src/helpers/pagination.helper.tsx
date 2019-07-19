@@ -17,8 +17,12 @@ const getPaginationTotal = (data: []) => {
     return data.length;
 };
 
-const getResultTotal = (data: { totalPageCount: 0 }) => {
+const getTotalPageCount = (data: { totalPageCount: 0 }) => {
     return data.totalPageCount;
+};
+
+const getTotalCarsCount = (data: { totalCarsCount: 0 }) => {
+  return data.totalCarsCount;
 };
 
 const getSortValue = (value: string) => {
@@ -30,4 +34,4 @@ const getSortValue = (value: string) => {
   return '';
 };
 
-export { getDefaultValues, getPaginationTotal, getResultTotal, getSortValue };
+export { getDefaultValues, getPaginationTotal, getTotalPageCount, getTotalCarsCount, getSortValue };
