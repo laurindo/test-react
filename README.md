@@ -4,7 +4,7 @@
 
 # Installation
 
-``npm istall``
+``npm install``
 
 # Run Locally - localhost:3000
 
