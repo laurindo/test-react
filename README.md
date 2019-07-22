@@ -2,6 +2,18 @@
 
 [https://github.com/squirreljuror/api-design-and-styles/blob/master/design-and-style-guide.pdf]()
 
+# Installation
+
+``npm istall``
+
+# Run Locally - localhost:3000
+
+``npm start``
+
+# Tes Locally
+
+``npm test``
+
 # Task for Frontend Engineer
 
 The following document describes the requirements, resources and expectations related
