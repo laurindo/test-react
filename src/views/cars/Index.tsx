@@ -48,33 +48,34 @@ export const Index = () => {
   };
 
   const handleSortCars = async (value: string) => {
-    setFilter({ ...filter, sort: PaginationHelper.getSortValue(value)});
-    callbackGetCars(filter);
+    const newFilter = { ...filter, sort: PaginationHelper.getSortValue(value)};
+    setFilter(newFilter);
+    callbackGetCars(newFilter);
   };
 
   const handleFirstPage = async (value: number) => {
-    const newFilter = { ...PaginationHelper.handleFirstPage(value, filter) };
+    const newFilter = { ...PaginationHelper.handleFirstPage(value) };
     setPageNumber(newFilter.page);
     setFilter(newFilter);
     callbackGetCars(newFilter);
   };
 
   const handleLastPage = async (value: number) => {
-    const newFilter = PaginationHelper.handleLastPage(value, filter);
+    const newFilter = PaginationHelper.handleLastPage(value);
     setPageNumber(newFilter.page);
     setFilter(newFilter);
     callbackGetCars(newFilter);
   };
 
   const handlePreviousPage = async () => {
-    const newFilter = PaginationHelper.handlePreviousPage(pageNumber, filter);
+    const newFilter = PaginationHelper.handlePreviousPage(pageNumber);
     setPageNumber(newFilter.page);
     setFilter(newFilter);
     callbackGetCars(newFilter);
   };
 
   const handleNextPage = async () => {
-    const newFilter = PaginationHelper.handleNextPage(pageNumber, filter);
+    const newFilter = PaginationHelper.handleNextPage(pageNumber);
     setPageNumber(newFilter.page);
     setFilter(newFilter);
     callbackGetCars(newFilter);
@@ -119,7 +120,7 @@ export const Index = () => {
               <Select 
                 placeholder="None"
                 handleChange={(value: string) => handleSortCars(value)} 
-                value={filter.color} 
+                value={filter.sort}
                 options={['Mileage - Ascending', 'Mileage - Descending']} />
             </div>
           </div>

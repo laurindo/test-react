@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const URL = 'https://auto1-backend.herokuapp.com';
