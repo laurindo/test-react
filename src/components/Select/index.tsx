@@ -34,13 +34,13 @@ const Select = (props: Props) => {
 
   return (
     <div className="container-select">
-      <div className="select" onClick={showSelect}> 
+      <div id="select-field" className="select" onClick={showSelect}> 
         { selectedOption || props.placeholder} 
         <Arrow status={isShowOptions} />
       </div>
       {
         isShowOptions ?
-          <ul>
+          <ul id='select-field-options'>
             <li onClick={(e) => handleOption('')}> { props.placeholder } </li>
             { renderOptions() }
           </ul> : null

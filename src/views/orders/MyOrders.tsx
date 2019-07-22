@@ -6,7 +6,7 @@ import { KEYS } from '../../constants';
 export const MyOrders = () => {
   const renderOrders = () => {
       const cars = StorageHelper.get(KEYS.favorite_cars);
-      return CarHelper.renderAvailableCars(cars);
+      return CarHelper.renderListCars(cars);
   };
 
   return (

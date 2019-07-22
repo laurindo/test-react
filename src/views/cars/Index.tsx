@@ -1,15 +1,14 @@
 import * as React from 'react';
 import Box from '../../components/Box';
-import Card from '../../components/Card';
 import Button from '../../components/Button';
 import Select from '../../components/Select';
 import Label from '../../components/Label';
 import Pagination from '../../components/Pagination';
-import Loading from '../../components/Loading';
+import AvailableCars from '../../components/AvailableCars';
 
 import * as HttpHelper from '../../helpers/http.helper';
 import * as PaginationHelper from '../../helpers/pagination.helper';
-import { ICar } from '../../interfaces/car.interface';
+import * as CarHelper from '../../helpers/car.helper';
 
 interface IManufacturer {
   name: string,
@@ -42,22 +41,7 @@ export const Index = () => {
     });
   }, []);
 
-  const renderAvailableCars = () => {
-    if (cars && cars.length) {
-      return cars.map((car: ICar, index: number) => {
-        return <Card 
-                id={car.stockNumber}
-                key={index} 
-                title={car.modelName} 
-                picture={car.pictureUrl}
-                data={car}
-                shortDescription={`Stock #${car.stockNumber} - ${car.mileage.number} ${car.mileage.unit} - ${car.fuelType} - ${car.color}`} />;
-        });
-    }
-  return <Loading />;
-  };
-
-  const handleFilterCars = async () => {
+  const callbackGetCars = (filter: Object) => {
     HttpHelper.getCarsEndpoint(filter).then(response => {
       setCar(response.data.cars);
     });
@@ -65,53 +49,41 @@ export const Index = () => {
 
   const handleSortCars = async (value: string) => {
     setFilter({ ...filter, sort: PaginationHelper.getSortValue(value)});
-    HttpHelper.getCarsEndpoint(filter).then(response => {
-      setCar(response.data.cars);
-    });
+    callbackGetCars(filter);
   };
 
   const handleFirstPage = async (value: number) => {
-    const newFilter = { ...filter, page: value};
+    const newFilter = { ...PaginationHelper.handleFirstPage(value, filter) };
+    setPageNumber(newFilter.page);
     setFilter(newFilter);
-    HttpHelper.getCarsEndpoint(newFilter).then(response => {
-      setCar(response.data.cars);
-    });
+    callbackGetCars(newFilter);
   };
 
   const handleLastPage = async (value: number) => {
-    const newFilter = { ...filter, page: value};
+    const newFilter = PaginationHelper.handleLastPage(value, filter);
+    setPageNumber(newFilter.page);
     setFilter(newFilter);
-    HttpHelper.getCarsEndpoint(newFilter).then(response => {
-      setCar(response.data.cars);
-    });
+    callbackGetCars(newFilter);
   };
 
   const handlePreviousPage = async () => {
-    const newPageNumber = pageNumber - 1;
-    setPageNumber(newPageNumber);
-    const newFilter = { ...filter, page: newPageNumber};
-
+    const newFilter = PaginationHelper.handlePreviousPage(pageNumber, filter);
+    setPageNumber(newFilter.page);
     setFilter(newFilter);
-    HttpHelper.getCarsEndpoint(newFilter).then(response => {
-      setCar(response.data.cars);
-    });
+    callbackGetCars(newFilter);
   };
 
   const handleNextPage = async () => {
-    const newPageNumber = pageNumber + 1;
-    setPageNumber(newPageNumber);
-    const newFilter = { ...filter, page: newPageNumber};
-
+    const newFilter = PaginationHelper.handleNextPage(pageNumber, filter);
+    setPageNumber(newFilter.page);
     setFilter(newFilter);
-    HttpHelper.getCarsEndpoint(newFilter).then(response => {
-      setCar(response.data.cars);
-    });
+    callbackGetCars(newFilter);
   };
 
   return (
     <div className="container">
       <div className="row">
-        <div className="col-4">
+        <div id="navfilter" className="col-4">
           <Box>
             <div>
               <Label>Color</Label>
@@ -131,17 +103,18 @@ export const Index = () => {
                 options={manufacturers} />
             </div>
 
-            <Button handleClick={() => handleFilterCars()}>Filter</Button>
+            <Button handleClick={() => PaginationHelper.handleFilterCars(callbackGetCars, filter)}>Filter</Button>
           </Box>
         </div>
 
         <div className="col-8">
           <div className="row">
-            <div className="col-8">
-              <h2>Available Cars</h2>
-              <h4>Showing {paginationSize} of {totalPageCars} results</h4>
+            <div className="col-8 available-cars">
+              <AvailableCars 
+                paginationSize={paginationSize} 
+                totalPageCars={totalPageCars} />
             </div>
-            <div className="col-4">
+            <div id="sort-select" className="col-4">
               <Label>Sort by</Label>
               <Select 
                 placeholder="None"
@@ -151,10 +124,11 @@ export const Index = () => {
             </div>
           </div>
 
-          {renderAvailableCars()}
+          { CarHelper.renderListCars(cars) }
+
           <Pagination
             handleFirstPage={() => handleFirstPage(1)} 
-            handleLastPage={() => handleLastPage(10)} 
+            handleLastPage={() => handleLastPage(totalPageCount)} 
             handlePreviousPage={() => handlePreviousPage()}
             handleNextPage={() => handleNextPage()}
             pageNumber={pageNumber}

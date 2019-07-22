@@ -34,4 +34,47 @@ const getSortValue = (value: string) => {
   return '';
 };
 
-export { getDefaultValues, getPaginationTotal, getTotalPageCount, getTotalCarsCount, getSortValue };
+const handleFilterCars = async (callback: Function, filter: Object = getDefaultValues()) => {
+  callback(filter);
+};
+
+const handleSortCars = (value: string, filter: Object = getDefaultValues()) => {
+  const newFilter = { ...getDefaultValues(), sort: getSortValue(value)};
+  return newFilter;
+};
+
+const handleFirstPage = (value: number, filter: Object = getDefaultValues()) => {
+  const newFilter = { ...getDefaultValues(), page: value};
+  return newFilter;
+};
+
+const handleLastPage = (value: number, filter: Object = getDefaultValues()) => {
+  const newFilter = { ...getDefaultValues(), page: value};
+  return newFilter;
+};
+
+const handlePreviousPage = (pageNumber: number, filter: Object = getDefaultValues()) => {
+  const newPageNumber = pageNumber - 1;
+  const newFilter = { ...getDefaultValues(), page: newPageNumber};
+  return newFilter;
+};
+
+function handleNextPage(pageNumber: number, filter: Object = getDefaultValues()) {
+  const newPageNumber = pageNumber + 1;
+  const newFilter = { ...getDefaultValues(), page: newPageNumber};
+  return newFilter;
+}
+
+export { 
+  getDefaultValues, 
+  getPaginationTotal, 
+  getTotalPageCount, 
+  getTotalCarsCount, 
+  getSortValue,
+  handleFilterCars,
+  handleSortCars,
+  handleFirstPage,
+  handleLastPage,
+  handlePreviousPage,
+  handleNextPage,
+};

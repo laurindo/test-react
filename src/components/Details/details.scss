@@ -1,7 +1,7 @@
 @import '../../styles/alignment.scss';
 
 .car-details {
-    margin: $mediumSpacing 0;
+    margin-top: $mediumSpacing;
     padding: 0 ($bigSpacing * 3);
     min-height: $contentWrapperSize;
 }

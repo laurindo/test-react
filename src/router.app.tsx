@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import { Index } from './views/cars/Index';
 import { CarDetails } from './views/cars/CarDetails';
 import { MyOrders } from './views/orders/MyOrders';
@@ -9,7 +9,7 @@ import NoMatchScreen from './views/NoMatchScreen';
 
 export const RouterApp = () => {
   return (
-    <Router>
+    <HashRouter>
       <div>
         <Header />
         <Switch>
@@ -20,6 +20,6 @@ export const RouterApp = () => {
         </Switch>
         <Footer />
       </div>
-    </Router>
+    </HashRouter>
   );
 };

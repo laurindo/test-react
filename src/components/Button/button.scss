@@ -12,4 +12,8 @@ button {
   &:active {
     background-color: $primaryOrange;
   }
+  &.disabled {
+    background-color: $grey;
+    cursor: none;
+  }
 }

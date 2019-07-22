@@ -6,16 +6,16 @@ import { KEYS } from '../constants';
 import { ICar } from '../interfaces/car.interface';
 import { IFavorite } from '../interfaces/favorite.interface';
 
-const renderAvailableCars = (cars: [] = []) => {
+const renderListCars = (cars: Array<ICar> = []) => {
     if (cars && cars.length) {
         return cars.map((car: ICar, index: number) => {
-        return <Card 
-                id={car.stockNumber}
-                key={index} 
-                title={car.modelName} 
-                picture={car.pictureUrl}
-                data={car} 
-                shortDescription={`Stock #${car.stockNumber} - ${car.mileage.number} ${car.mileage.unit} - ${car.fuelType} - ${car.color}`} />;
+          return <Card 
+                  id={car.stockNumber}
+                  key={index} 
+                  title={car.modelName} 
+                  picture={car.pictureUrl}
+                  data={car} 
+                  shortDescription={ formatDetails(car) } />;
         });
     }
     return <Loading />;
@@ -33,6 +33,10 @@ const storeCarLocally = (props: IFavorite) => {
     } else {
       StorageHelper.set(KEYS.favorite_cars, [data]);
     }
-  };
+};
 
-export { renderAvailableCars, storeCarLocally };
+const formatDetails = (car: ICar) => {
+  return `Stock #${car.stockNumber} - ${car.mileage.number} ${car.mileage.unit} - ${car.fuelType} - ${car.color}`;
+};
+
+export { renderListCars, storeCarLocally, formatDetails };
