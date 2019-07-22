@@ -42,7 +42,8 @@ describe('<Index />', () => {
           <Card 
               id='1' 
               picture='' 
-              title='Audi' 
+              title='Audi'
+              isFavorite={false} 
               shortDescription='Audi'
               data={{}}
               />
@@ -68,6 +69,7 @@ describe('<Index />', () => {
             id='1' 
             picture='' 
             title='Audi' 
+            isFavorite={false}
             shortDescription={`Stock #${car.stockNumber} - ${car.mileage.number} ${car.mileage.unit} - ${car.fuelType} - ${car.color}`}
             data={{}}
             />

@@ -1,20 +1,20 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import Details from '../../components/Details';
 import Box from '../../components/Box';
 import Button from '../../components/Button';
 import Label from '../../components/Label';
 import Toast from '../../components/Toast';
 import * as CarHelper from '../../helpers/car.helper';
+import * as StorageHelper from '../../helpers/storage.helper';
 import { IFavorite } from '../../interfaces/favorite.interface';
+import { ICar } from '../../interfaces/car.interface';
+import { KEYS } from '../../constants';
 
 export const CarDetails = (props: IFavorite) => {
 
   const [showToast, setShowToast] = React.useState(false);
   const [showButtonSave, setShowButtonSave] = React.useState(true);
   const [details, setDetails] = React.useState({ location: { state: { id: 0, title: '', details: '', shortDescription: '' } } });
-
-  console.log(props.location);
 
   React.useEffect(() => {
     if (props && props.location && props.location.state) {
@@ -39,11 +39,23 @@ export const CarDetails = (props: IFavorite) => {
     CarHelper.storeCarLocally(props);
   };
 
+  const removeFromFavorite = (filtered: [{}]) => {
+    try {
+      setShowButtonSave(true);
+      StorageHelper.set(KEYS.favorite_cars, filtered);
+    } catch (e) {}
+  };
+
   const renderButtonSave = () => {
-    if (showButtonSave) {
-      return <Button handleClick={ () => storeCarLocally() }>Save</Button>;  
+    if (props.location.state.id) {
+      const favoriteDetail = CarHelper.checkFavoriteCar(props.location.state.id);
+      
+      if (showButtonSave && !favoriteDetail.hasItem ) {
+        return <Button handleClick={ () => storeCarLocally() }>Save</Button>
+      }
+      return <Button handleClick={() => removeFromFavorite(favoriteDetail.filtered) }>Remove</Button>
     }
-    return <Button disabled={true} handleClick={() => {}}>Saved</Button>
+    return null;
   };
   
   return (

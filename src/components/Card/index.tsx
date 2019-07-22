@@ -7,10 +7,27 @@ interface Props {
   picture: '',
   title: String,
   shortDescription: String,
+  isFavorite: false,
   data: Object,
 }
 
 const Card = (props: Props) => {
+
+  const renderImageFavorite = () => {
+    if (props.isFavorite) {
+      return <img src="https://res.cloudinary.com/luneswallet/image/upload/v1563810629/auto1/favorite-heart-button.png" />;
+    }
+    return <img src="https://res.cloudinary.com/luneswallet/image/upload/v1563810629/auto1/heart.png" />
+  };
+
+  const renderLabelFavorite = () => {
+    return (
+      <label className="favorite">
+        { renderImageFavorite() }
+      </label>
+    );
+  };
+
   return (
     <div className="card">
       <div className="avatar">

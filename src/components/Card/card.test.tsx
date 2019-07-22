@@ -10,6 +10,7 @@ it('<Card />', () => {
             id='1' 
             picture='' 
             title='Title Card' 
+            isFavorite={false}
             shortDescription='short description'
             data={{}}
             />

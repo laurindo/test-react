@@ -14,6 +14,7 @@ const renderListCars = (cars: Array<ICar> = []) => {
                   key={index} 
                   title={car.modelName} 
                   picture={car.pictureUrl}
+                  isFavorite={false}
                   data={car} 
                   shortDescription={ formatDetails(car) } />;
         });
@@ -39,4 +40,14 @@ const formatDetails = (car: ICar) => {
   return `Stock #${car.stockNumber} - ${car.mileage.number} ${car.mileage.unit} - ${car.fuelType} - ${car.color}`;
 };
 
-export { renderListCars, storeCarLocally, formatDetails };
+const checkFavoriteCar = (id: Number) => {
+  let hasItem = false;
+  const res = StorageHelper.get(KEYS.favorite_cars);
+  const filtered = res.filter((r: ICar) => {
+    if (parseInt(r.id) === id) { hasItem = true; }
+    return parseInt(r.id) !== id;
+  });
+  return { filtered, hasItem };
+};
+
+export { renderListCars, storeCarLocally, formatDetails, checkFavoriteCar };
